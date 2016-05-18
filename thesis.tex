@@ -1,0 +1,87 @@
+
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage{License_style}
+
+
+\usepackage[style=numeric-comp, backend=bibtex, sorting=none]{biblatex}
+\addbibresource{thesis.bib}
+
+\begin{document}
+
+\numberwithin{lstlisting}{section}
+
+\setcounter{page}{4}
+
+\phantomsection
+%\addcontentsline{toc}{section}{SUMMARY}
+\input{misc/summary.tex}
+\cleardoublepage
+
+\phantomsection
+%\addcontentsline{toc}{section}{АННОТАЦИЯ}
+\input{misc/rezumat.tex}
+\cleardoublepage
+
+
+\tableofcontents
+\addtocontents{toc}{\protect\thispagestyle{empty}} % no page number on the table of contents page
+\cleardoublepage
+
+% LISTA FIGURILOR. Este recomandabila daca in text ai peste cel putin 10-15 FIGURI
+\listoffigures
+\addcontentsline{toc}{section}{List of figures}
+\clearpage
+
+% LISTA TABELELOR. Este recomandabila daca in text ai peste cel putin 10-15 tabele
+\listoftables
+\addcontentsline{toc}{section}{List of tables}
+\clearpage
+
+\lstlistoflistings
+\addcontentsline{toc}{section}{Listings}
+\clearpage
+
+% ABREVIERI. Este recomandabila doar daca utilizezi in text peste 10-15 abrevieri
+% \phantomsection
+% \addcontentsline{toc}{section}{Abbreviations}
+% \input{misc/abbreviations.tex}
+% \cleardoublepage
+
+
+% Introduction
+%\setcounter{page}{17}
+\phantomsection
+\addcontentsline{toc}{section}{Introduction}
+\input{misc/introduction.tex}
+\cleardoublepage
+
+% Chapter 1
+\input{chapter_1/main.tex}
+\cleardoublepage
+
+% Chapter 2
+\input{chapter_2/main.tex}
+\cleardoublepage
+% \addtocontents{toc}{\protect\newpage}
+
+% Chapter 3
+\input{chapter_3/main.tex}
+\cleardoublepage
+
+% Chapter 4
+\input{chapter_4/main.tex}
+\cleardoublepage
+
+
+\phantomsection
+\addcontentsline{toc}{section}{Conclusions}
+\input{misc/conclusions.tex}
+\cleardoublepage
+
+\cleardoublepage
+\addcontentsline{toc}{section}{References}
+\printbibliography
+\cleardoublepage
+
+
+\end{document}
