@@ -21,6 +21,7 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{rotating}
+\usepackage{array}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{acknowledgement}[theorem]{Acknowledgement}
@@ -65,8 +66,8 @@
 
 % format for figure and tables caption
 \DeclareCaptionLabelSeparator{tire}{\,-- \;}
-\captionsetup[figure]{labelformat=simple,labelsep=tire, belowskip=-0.5cm}
-\captionsetup[lstlisting]{labelformat=simple,labelsep=tire, belowskip=-0.5cm}
+\captionsetup[figure]{labelformat=simple,labelsep=tire, belowskip=-0.2cm}
+\captionsetup[lstlisting]{labelformat=simple,labelsep=tire, belowskip=-0.3cm}
 \captionsetup[table]{labelformat=simple,position=top, labelsep=tire,singlelinecheck=false}
 
 % format for enumeration and itemized lists
@@ -75,6 +76,8 @@
 \renewcommand{\labelenumi}{\theenumi )}
 \renewcommand{\labelenumii}{\theenumii )}
 \renewcommand{\labelenumiii}{ --)}
+
+\def\labelitemi{--}
 
 \numberwithin{equation}{section}
 
@@ -139,4 +142,9 @@
 
 \lstset{style=mystyle}
 \lstset{aboveskip=3ex,belowskip=3ex}
-
+\setlist{noitemsep}
+\setlist[itemize]{noitemsep, topsep=0.5pt}
+\setlist[enumerate]{noitemsep, topsep=0.5pt}
+%\captionsetup[figure]{aboveskip=40pt}
+%\captionsetup[figure]{belowskip=0.5pt}
+\captionsetup[listing]{belowskip=15.5pt}
