@@ -80,9 +80,54 @@ effective technique in project management.
 
 \subsubsection{Time Schedule Establishment}
 
-\subsection{Economic Motivation}
+Most of IT projects' lifetimes consist of 5 basic steps: planning, research,
+development, testing and deployment. These steps are in turn subdivided into
+smaller parts in order to make the whole process manageable in terms of tasks.
+Most of the time table will be allocated to the step of development and
+testing as these are the steps with the most workload. Planning and research
+by itself shouldn't take up too much time, as requirements usually evolve
+during development, also research is a thing that usually never stops. The
+development of the project can also be split in tasks that can be performed in
+parallel thus minimizing the overall time. Total duration of the project is
+computed using the equation \eqref{eq:duration}.
 
-\subsubsection{Tangible and Intangible Asset Expenses}
+\begin{equation} \label{eq:duration}
+D_T = D_F - D_S + T_R,
+\end{equation}
+
+\noindent where $D_T$ is the duration, $D_F$ -- the finish date, $D_S$ -- the
+start date and $T_R$ -- reserve time. Table \ref{table:schedule} represents
+the first iteration of the project schedule. The following notations are used
+to improve readability: PM -- project manager, D -- developer, GD -- graphics
+designer, SM -- sales manager.
+
+\begin{table}[!h]
+\begin{center}
+\caption{Time schedule}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabulary}{1\textwidth}{| C | C | C | C | C |}
+
+\hline \textbf{Nr} & \textbf{Activity Name} & \textbf{Duration (days)} & \textbf{People involved} \\
+\hline 1  & Project concept definition          & 5     & PM, GD, SM, D \\
+\hline 2  & Market analysis                     & 10    & PM, SM        \\
+\hline 3  & Domain analysis                     & 15    & PM, D         \\
+\hline 4  & Product requirements specification  & 5     & PM, D         \\
+\hline 5  & System modeling (UML)               & 10    & D             \\
+\hline 6  & Graphic design                      & 10    & GD            \\
+\hline 7  & Framework development               & 20    & D             \\
+\hline 8  & Main game development               & 30    & GD, D         \\
+\hline 9  & Validation of results               & 10    & PM, GD, D, SM \\
+\hline 10 & Documentation                       & 5     & D             \\
+\hline 11 & Deployment and testing              & 10    & PM, D         \\
+\hline 12 & Active marketing                    & 15    & SM            \\
+\hline 13 & Total time to finish the system     & 145   &               \\
+\hline
+
+\end{tabulary}
+\label{table:schedule}
+\vspace{-2.5em}
+\end{center}
+\end{table}
 
 \subsubsection{Salary Expenses}
 
