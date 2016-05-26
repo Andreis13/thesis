@@ -314,6 +314,71 @@ computed.
 
 \subsubsection{Individual Person Salary}
 
+Along with total work expense fund, it is necessary to compute the annual
+salary for the developer. Considering that the developer has a salary of 380
+MDL per day and there are totally 250 working days in a year, so the gross
+salary that the developer gets is:
+
+\begin{equation}
+GS = 380 \cdot 250 = 95000,
+\end{equation}
+
+\noindent where $GS$ is the gross salary computed in MDL.
+
+Social fund tax this year represents $6\%$, so the amount that should be tax
+paid in MDL represents:
+
+\begin{equation}
+ SF = 95000 \cdot 6\% = 5700.
+\end{equation}
+
+Medical insurance tax represents $4.5\%$ and gives the following result:
+
+\begin{equation}
+ MIF = 95000 \cdot 4.5\% = 4725.
+\end{equation}
+
+In order to proceed with income tax computations, it is necessary to calculate
+the amount of taxed salary:
+
+\begin{equation}
+\begin{split}
+ TS &= GS - SF - MIF - PE \\
+              &= 95000 - 5700 - 4725 - 10128\\
+              &= 74447,
+\end{split}
+\end{equation}
+
+\noindent where $TS$ is the taxed salary, $GS$ -- gross salary, $SF$ -- social
+fund, $PE$ -- personal exemption, which this year is approved to be $10128$.
+
+The last but not the least thing to be computed is the total income tax, which
+is $7\%$ for income under 29640 MDL and $18\%$ for income over 29640 MDL:
+
+\begin{equation}
+\begin{split}
+ IT &= TS - ST \\
+      &= 29640 \cdot 7\% + (74447 - 29640) \cdot 18\% \\
+      & = 2074.80 + 8065.30 = 10140.10,
+ \end{split}
+\end{equation}
+
+\noindent where $IT$ is the income tax, $TS$ -- the taxed salary and $ST$ --
+the salary tax. With all this now it is possible to find out the value of the
+net income:
+
+\begin{equation}
+\begin{split}
+ NS &= GS - IT - SF - MIF \\
+            &= 95000 - 10140.10 - 5700 - 4725 \\
+            &= 74434.90,
+\end{split}
+\end{equation}
+
+\noindent where $NS$ is the net salary allocated for the employee, $GS$ -- gross salary, $IT$ -- income
+tax, $SF$ -- social fund, $MIF$ -- medical insurance fund.
+
+
 \subsubsection{Indirect Expenses}
 
 \subsubsection{Wear and Deprecation}
