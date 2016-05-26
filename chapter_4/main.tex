@@ -201,17 +201,17 @@ project, the budget for both types of assets are exposed in tables
 
 
 \newpage
-\subsubsection{Direct Expenses}
+\subsubsection{Expendable Materials Expenses}
 
 Besides the costs of assets, the development of the project implies some
 direct expenses like consumable materials for the office. Even though the
 amounts are  not that big, is important to keep track such expenses as they
-tend to add up. These direct expenses are presented in the table
+tend to add up. These expenses are presented in the table
 \ref{table:direct_expenses}.
 
 \begin{table}[!h]
 \begin{center}
-\caption{Direct expenses}
+\caption{Expendable materials expenses}
 \renewcommand{\arraystretch}{1.5}
 \begin{tabulary}{1\textwidth}{| C | C | C | C | C |}
 
@@ -227,14 +227,6 @@ tend to add up. These direct expenses are presented in the table
 \vspace{-1.5em}
 \end{center}
 \end{table}
-
-
-Given the tables above the total amount of expenses in MDL, including tangible
-and intangible asset expenses, is the following:
-
-\begin{equation}
-T_{e} = 96000 + 4900 + 820 = 11720
-\end{equation}
 
 
 \subsubsection{Salary Expenses}
@@ -325,21 +317,17 @@ GS = 380 \cdot 250 = 95000,
 
 \noindent where $GS$ is the gross salary computed in MDL.
 
-Social fund tax this year represents $6\%$, so the amount that should be tax
-paid in MDL represents:
+Social fund and medical insurance taxes have the following values in MDL,
+given the tax percentages approved this year:
 
 \begin{equation}
- SF = 95000 \cdot 6\% = 5700.
+\begin{split}
+SF = 95000 \cdot 6\% = 5700\\
+MIF = 95000 \cdot 4.5\% = 4725
+\end{split}
 \end{equation}
 
-Medical insurance tax represents $4.5\%$ and gives the following result:
-
-\begin{equation}
- MIF = 95000 \cdot 4.5\% = 4725.
-\end{equation}
-
-In order to proceed with income tax computations, it is necessary to calculate
-the amount of taxed salary:
+To compute the income tax it is necessary to now the amount of taxable salary:
 
 \begin{equation}
 \begin{split}
@@ -349,7 +337,7 @@ the amount of taxed salary:
 \end{split}
 \end{equation}
 
-\noindent where $TS$ is the taxed salary, $GS$ -- gross salary, $SF$ -- social
+\noindent where $TS$ is the taxable salary, $GS$ -- gross salary, $SF$ -- social
 fund, $PE$ -- personal exemption, which this year is approved to be $10128$.
 
 The last but not the least thing to be computed is the total income tax, which
@@ -381,11 +369,178 @@ tax, $SF$ -- social fund, $MIF$ -- medical insurance fund.
 
 \subsubsection{Indirect Expenses}
 
-\subsubsection{Wear and Deprecation}
+Besides direct expenses described in the previous sections there are such
+things like electricity, internet traffic, water and other utilities that are
+used in the office. These expenses are called indirect and the table
+\ref{table:indirect_expenses} shows in what amounts they can impact project
+costs.
+
+\begin{table}[!ht]
+\begin{center}
+\caption{Indirect expenses}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabulary}{1\textwidth}{| C | C | C | C | C |}
+
+\hline \textbf{Material} & \textbf{Specification} & \textbf{Price per unit (MDL)} & \textbf{Quantity} & \textbf{Sum (MDL)} \\
+\hline Internet     & Moldtelecom Subscription  & 200.00 per month  & 3     & \multicolumn{1}{r|}{600} \\
+\hline Transport    & Public bus trip           & 3.00 per trip     & 132   & \multicolumn{1}{r|}{396} \\
+\hline Electricity  & Union Fenosa              & 1.58 per kWh      & 250   & \multicolumn{1}{r|}{395} \\
+\hline \multicolumn{4}{|r|}{Total}                                          & \multicolumn{1}{r|}{1481} \\
+\hline
+\end{tabulary}
+\label{table:indirect_expenses}
+\vspace{-2.5em}
+\end{center}
+\end{table}
+
+
+\subsubsection{Wear and Depreciation}
+
+Another important part of economic analysis is the computation of wear and
+depreciation. It is a well known fact that any product decreases its value
+with time. Depression will be computed uniformly for the whole project
+duration, so that there are no accountancy issues. In other words, if a
+product is planned for 3 years, it should be divided into 3 uniform parts
+according to each year.
+
+Straight line depreciation will be applied. Normally wear is computed
+regarding to the type of asset. The notebook and single-board computer are
+usable for a period of 3 years. Licenses will last for a single year. At first
+tangible and intangible assets are summed up and then the salvage costs of
+each of the items at the end of their period of use has to be subtracted:
+
+\begin{equation}
+ \begin{split}
+  TAV &= \sum (AC - SV) \\
+        &= (66000 - 46000) + (18000 - 10000) + (1900 - 0) + (1500 - 0) + (2000 - 0) + (500 - 0) \\
+        &= 33900,
+ \end{split}
+\end{equation}
+
+\noindent where $TAV$ is the total assets value, $AC$ -- assets cost, $SV$ --
+salvage value. In order to get the yearly wear, divide total asset value by
+the period of use of assets, being 3 years.
+
+\begin{equation} \label{eq:wear}
+ \begin{split}
+  W_y &= TAV / T_{use} \\
+                &= 33900/3\\
+                &= 11300,
+ \end{split}
+\end{equation}
+
+\noindent where $W_y$ is the wear per year, $TAV$ -- total assets value,
+$T_{use}$ -- period of use. Relation \eqref{eq:wear} included tangible assets
+which will last for 3 years and intangible assets which last only one year.
+The initial value of assets in MDL was
+
+\begin{equation}
+ \begin{split}
+  W &= W_y / D_y \cdot T_p\\
+                   &= 11300 / 365  \cdot 135 \\
+                   &= 4489,
+ \end{split}
+\end{equation}
 
 \subsubsection{Product Cost}
 
-\subsubsection{Economic Indicators and Results}
+With all the project expenses computed, it is easy to compute the product cost
+which includes direct and indirect expenses, salary expenses and wear expenses
+as shown in Table \ref{table:product_cost}.
+
+\begin{table}[!ht]
+\begin{center}
+\caption{Total Product Cost}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabulary}{1\textwidth}{| C | C | C |}
+
+\hline \textbf{Expense type} & \textbf{Sum (MDL)} & \textbf{Percentage (\%)}\\
+\hline Direct expenses              & 820     & 0.39    \\
+\hline Indirect expenses            & 1481    & 0.7     \\
+\hline Salary expenses              & 105050  & 49.38   \\
+\hline Tangible asset expenses      & 96000   & 45.13   \\
+\hline Intangible asset expenses    & 4900    & 2.3     \\
+\hline Asset wear expenses          & 4489    & 2.11    \\
+\hline \textbf{Total product cost} & \textbf{212740} & \textbf{100}\\
+\hline
+\end{tabulary}
+\label{table:product_cost}
+\vspace{-2.5em}
+\end{center}
+\end{table}
+
+
+\subsection{Economic Indicators and Results}
+
+When it comes to selling the product, it is sometimes difficult to decide what
+price to set for each sold copy or unit. In general there are two main
+strategies that can be applied, and specifically: sell less with a high price
+or sell more with a lower price. For the purpose of this thesis it is assumed
+that the expected profit is $15\%$ of the total product cost and the number
+of sold copies is estimated at 500.
+
+\begin{equation}
+\begin{split}
+GP &= C_{total} / N_{cs} + P_{p}\\
+    &= 212740/500 + 15\% \\
+    &= 489.30,
+\end{split}
+\end{equation}
+
+\noindent where $GP$ is the gross price, $C_{total}$ -- total product cost,
+$N_{cs}$ -- number of copies sold, $P_{p}$ -- chosen profit percentage. This
+is not the price of the end product, since it is necessary to add sales tax
+(VAT), which represents $20\%$ and is added to the gross price.
+
+\begin{equation}
+\begin{split}
+P_{sale} &= GP + TX_{sales}\\
+            &= 489.30 + 20\% \\
+            &= 587.16,
+\end{split}
+\end{equation}
+
+\noindent where $P_{sale}$ is the sale prices including VAT, $GP$ -- gross
+price, $TX_{sales}$ -- sales tax. The net income is computed by multiplying
+gross price and the number of expected copies to be sold, which will be
+
+\begin{equation}
+\begin{split}
+I_{net} &= GP \cdot N_{cs}\\
+        &= 489.30 \cdot 500 \\
+        &= 244650,
+\end{split}
+\end{equation}
+
+\noindent where $I_{net}$ is the net income, $GP$ -- gross price, $N_{cs}$ --
+number of copies sold. Moreover it is necessary to compute the gross and net
+profit. The indicators are $GPr$ -- gross profit and $NPr$ -- net profit.
+
+\begin{equation}
+ \begin{split}
+GPr &= I_{net} - C_{production}\\
+    &= 244650 - 212740\\
+    &= 31910\\
+NPr &= GPr - 12\% \\
+    &= 31910 - 12\% \\
+    &= 28080.80,
+\end{split}
+\end{equation}
+
+\noindent where $I_{net}$ is the net income, $C_{production}$ -- cost of
+production. The profitability indicators are $C_{profit}$ -- cost
+profitability, $S_{profit}$ -- sales profitability computed as percentage.
+
+\begin{equation}
+ \begin{split}
+  C_{profit} &= GPr / C_{production} \cdot 100\%\\
+              &= 31910 / 212740 \cdot 100\% \\
+              &= 14.99 \%\\
+  S_{profit} &= GPr / I_{net} \cdot 100\% \\
+             &= 31910 / 244650 \cdot 100\% \\
+             &= 13.04 \%.
+ \end{split}
+\end{equation}
 
 \subsection{Marketing Plan}
 
