@@ -268,7 +268,7 @@ salary expenses are computed according to the relation \eqref{eq:fs}.
 \begin{equation}\label{eq:fs}
 \begin{split}
  FS &= F_{re} \cdot T_{fs} \\
-    &= 105050 \cdot 23 \% \\
+    &= 105050 \cdot 0.23 \\
     &= 24161.50,
 \end{split}
 \end{equation}
@@ -280,7 +280,7 @@ insurance fund is computed as
 \begin{equation}
 \begin{split}
  MI &= F_{re} \cdot T_{mi}\\
-    &= 105050 \cdot 4.5\%\\
+    &= 105050 \cdot 0.045 \\
     &= 4727.25,
  \end{split}
 \end{equation}
@@ -322,8 +322,8 @@ given the tax percentages approved this year:
 
 \begin{equation}
 \begin{split}
-SF = 95000 \cdot 6\% = 5700\\
-MIF = 95000 \cdot 4.5\% = 4725
+SF = 95000 \cdot 0.06 = 5700\\
+MIF = 95000 \cdot 0.045 = 4725
 \end{split}
 \end{equation}
 
@@ -346,7 +346,7 @@ is $7\%$ for income under 29640 MDL and $18\%$ for income over 29640 MDL:
 \begin{equation}
 \begin{split}
  IT &= TS - ST \\
-      &= 29640 \cdot 7\% + (74447 - 29640) \cdot 18\% \\
+      &= 29640 \cdot 0.07 + (74447 - 29640) \cdot 0.18 \\
       & = 2074.80 + 8065.30 = 10140.10,
  \end{split}
 \end{equation}
@@ -383,9 +383,9 @@ costs.
 
 \hline \textbf{Material} & \textbf{Specification} & \textbf{Price per unit (MDL)} & \textbf{Quantity} & \textbf{Sum (MDL)} \\
 \hline Internet     & Moldtelecom Subscription  & 200.00 per month  & 3     & \multicolumn{1}{r|}{600} \\
-\hline Transport    & Public bus trip           & 3.00 per trip     & 132   & \multicolumn{1}{r|}{396} \\
-\hline Electricity  & Union Fenosa              & 1.58 per kWh      & 250   & \multicolumn{1}{r|}{395} \\
-\hline \multicolumn{4}{|r|}{Total}                                          & \multicolumn{1}{r|}{1481} \\
+\hline Transport    & Public bus trip           & 3.00 per trip     & 110   & \multicolumn{1}{r|}{330} \\
+\hline Electricity  & Union Fenosa              & 1.92 per kWh      & 250   & \multicolumn{1}{r|}{480} \\
+\hline \multicolumn{4}{|r|}{Total}                                          & \multicolumn{1}{r|}{1410} \\
 \hline
 \end{tabulary}
 \label{table:indirect_expenses}
@@ -412,7 +412,7 @@ each of the items at the end of their period of use has to be subtracted:
 \begin{equation}
  \begin{split}
   TAV &= \sum (AC - SV) \\
-        &= (66000 - 46000) + (18000 - 10000) + (1900 - 0) + (1500 - 0) + (2000 - 0) + (500 - 0) \\
+        &= (66000 - 46000) + (18000 - 9000) + (4900 - 0) \\
         &= 33900,
  \end{split}
 \end{equation}
@@ -455,13 +455,12 @@ as shown in Table \ref{table:product_cost}.
 \begin{tabulary}{1\textwidth}{| C | C | C |}
 
 \hline \textbf{Expense type} & \textbf{Sum (MDL)} & \textbf{Percentage (\%)}\\
-\hline Direct expenses              & 820     & 0.39    \\
-\hline Indirect expenses            & 1481    & 0.7     \\
-\hline Salary expenses              & 105050  & 49.38   \\
-\hline Tangible asset expenses      & 96000   & 45.13   \\
-\hline Intangible asset expenses    & 4900    & 2.3     \\
-\hline Asset wear expenses          & 4489    & 2.11    \\
-\hline \textbf{Total product cost} & \textbf{212740} & \textbf{100}\\
+\hline Direct expenses              & 820     & 0.7    \\
+\hline Indirect expenses            & 1410    & 1.2     \\
+\hline Salary expenses              & 105050  & 90.04   \\
+\hline Intangible asset expenses    & 4900    & 4.19     \\
+\hline Asset wear expenses          & 4489    & 3.84    \\
+\hline \textbf{Total product cost} & \textbf{116669} & \textbf{100}\\
 \hline
 \end{tabulary}
 \label{table:product_cost}
@@ -482,8 +481,8 @@ of sold copies is estimated at 500.
 \begin{equation}
 \begin{split}
 GP &= C_{total} / N_{cs} + P_{p}\\
-    &= 212740/500 + 15\% \\
-    &= 489.30,
+    &= 116669/500 \cdot 1.15 \\
+    &= 268.34,
 \end{split}
 \end{equation}
 
@@ -495,8 +494,8 @@ is not the price of the end product, since it is necessary to add sales tax
 \begin{equation}
 \begin{split}
 P_{sale} &= GP + TX_{sales}\\
-            &= 489.30 + 20\% \\
-            &= 587.16,
+            &= 268.34 \cdot 1.20 \\
+            &= 322.00,
 \end{split}
 \end{equation}
 
@@ -507,8 +506,8 @@ gross price and the number of expected copies to be sold, which will be
 \begin{equation}
 \begin{split}
 I_{net} &= GP \cdot N_{cs}\\
-        &= 489.30 \cdot 500 \\
-        &= 244650,
+        &= 268.34 \cdot 500 \\
+        &= 134170,
 \end{split}
 \end{equation}
 
@@ -519,11 +518,11 @@ profit. The indicators are $GPr$ -- gross profit and $NPr$ -- net profit.
 \begin{equation}
  \begin{split}
 GPr &= I_{net} - C_{production}\\
-    &= 244650 - 212740\\
-    &= 31910\\
+    &= 134170 - 116669\\
+    &= 17501 \\
 NPr &= GPr - 12\% \\
-    &= 31910 - 12\% \\
-    &= 28080.80,
+    &= 17501 \cdot 0.88 \\
+    &= 15400.88,
 \end{split}
 \end{equation}
 
@@ -534,11 +533,11 @@ profitability, $S_{profit}$ -- sales profitability computed as percentage.
 \begin{equation}
  \begin{split}
   C_{profit} &= GPr / C_{production} \cdot 100\%\\
-              &= 31910 / 212740 \cdot 100\% \\
-              &= 14.99 \%\\
+              &= 17501 / 116669 \cdot 100\% \\
+              &= 15.0 \%\\
   S_{profit} &= GPr / I_{net} \cdot 100\% \\
-             &= 31910 / 244650 \cdot 100\% \\
-             &= 13.04 \%.
+             &= 17501 / 134170 \cdot 100\% \\
+             &= 13.0 \%.
  \end{split}
 \end{equation}
 
