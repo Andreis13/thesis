@@ -131,14 +131,59 @@ game till the end of the match, otherwise, an automatic transition back to the
 
 \subsection{Class Hierarchy of Game Objects}
 
+In the process of modeling a software system, an important role goes to laying
+out the relationships between different classes of objects. Class diagrams are
+recognized as one of the most effective tools that is able to convey a
+comprehensive view of the structure of an information system. When it comes to
+the game depicted in this thesis, the player is once again in the center of
+attention as it is acts as a container for various game components and
+represents the main logical unit of the game.
+
+The diagram below illustrates the main classes defined in the project and the
+relations between them. It can be observed that the Player class responds to
+some standard methods that can be found in almost every game out there:
+\emph{render}, \emph{update} and \emph{handleInput}. These methods are the
+connection points of this object to the rest of the game and are invoked in the
+respective sections of the game loop. Besides standard methods, a Player
+contains helper methods like \emph{startMoving} and \emph{throwSnowball} that
+would normally be invoked in the \emph{update} method, however, the state
+machine architecture imposes a slightly different pattern. Instead of performing
+all the logic in the methods mentioned above, the Player delegates the decisions
+of 'what to do' to a state object that executes necessary actions depending on
+the specific state of the Player. The states are managed by an object of
+PlayerStateManager class, whose reference is stored in a field of a Player.
+
 \begin{figure}[!h]
 \centering
 \includegraphics[width=15cm]{diagrams/class}
-\caption{Class Diagram}\label{diag:class}
+\caption{Player Class and Its Components}\label{diag:class}
 \end{figure}
 
+Another aspect of the architecture worth mentioning is the unified interface of
+a controlling unit. The Player holds a reference to a Controller object, which,
+in turn, can be of different types. This is motivated by the fact that the game
+can be later modified to support artificial intelligence bots as adversaries at
+the same time maintaining the same controller interface. Thus, a Player can
+gather input information in the same way, regardless of the input source,
+whether it is a local keyboard, a remote smart-phone or just a bot script.
+
+\newpage
 
 \subsection{Components and Libraries}
+
+At the very beginning of the software development industry, programs had to be
+written almost entirely from scratch, which took quite a bit of time and effort,
+and usually it had to be redone with every following project. Today, however,
+the vast majority of recurring problems have been solved and their programming
+solutions can be found in various libraries that can be included and used in
+independent projects. This way, software development has become biased from
+writing all the code from zero, towards a more modular approach where
+applications would share pieces of reusable software and the programmers would
+only write code to glue all of it together.
+
+Below is a component diagram that represents the dependency graph of the
+'Snowfight' game. It points out what are the main components of the application
+and which libraries are used to obtain the desirable functionality.
 
 \begin{figure}[!h]
 \centering
@@ -146,8 +191,41 @@ game till the end of the match, otherwise, an automatic transition back to the
 \caption{Component Diagram}\label{diag:component}
 \end{figure}
 
+The two components of the application are the main game module and the module of
+the controller code. These modules share a dependency which is the 'PeerJS'
+library. It is used to establish peer two peer connections between the game and
+controllers, thus, it should be present in both places. The main game makes
+extensive use of the PhaserJS game development library, while the controller
+code exclusively includes a library for processing touch gestures called
+HammerJS.
+
+\newpage
 
 \subsection{Deployment Setup}
+
+When the application is moved to production it is important to understand the
+deployment configuration of the system in order to be able to manage it
+efficiently. In case of the game in question, it is not enough to consider only
+a web server that would host the application files. The specifics of peer to
+peer communication protocol involved in the project, require a dedicated service
+for brokering the connections. In setups where raw WebRTC is used it is
+necessary to deploy a STUN or TURN server. On the other hand, this project
+includes a wrapper library that features a pre-configured server application.
+This server application can be deployed in one of the three variants:
+
+\begin{itemize}
+	\item Hosted on the same machine as the web server
+	\item Deployed to a separate dedicated server
+	\item A third-party SaaS (Software as a Service) solution
+\end{itemize}
+
+The diagram that follows, illustrates the second type of deployment when the web
+server and the 'PeerJS' server are hosted on two different dedicated machines.
+The web server delivers the appropriate scripts to the client's devices. This
+communication is performed using HTTP or HTTPS protocols. Client devices (a
+computer and a phone), in turn, establish a peer-to-peer WebRTC connection, as a
+result of communications with the broker server which are executed over a
+combination of HTTP and WebSocket protocols.
 
 \begin{figure}[!h]
 \centering
@@ -155,7 +233,26 @@ game till the end of the match, otherwise, an automatic transition back to the
 \caption{Deployment Diagram}\label{diag:deployment}
 \end{figure}
 
+\newpage
 
 \subsection{System Design Conclusions}
+
+This chapter provided an overview of the system design process of the
+'Snowfight' game. By means of different types of UML diagrams it was possible to
+obtain several perspectives of the most important parts of the application model
+from different points of view.
+
+It can be observed that the application design follows a couple of architectural
+patterns found mostly in the game development industry, for example, the
+stateful approach to modeling game objects. On the other hand, a lot of
+particularities still can be traced back to the fact that the application is not
+a native one, but rather web-based.
+
+The value of system design can be hardly seen in such small projects as the one
+depicted in this thesis, however, large systems cannot go without a good round
+of design and analysis. Moreover, developer teams with a big number of employees
+can vastly benefit from having diagrams that describe various parts of a system.
+These provide documentation and make it easier for people who are new in the
+project to pick up the material and continue further development.
 
 \clearpage
