@@ -1,17 +1,207 @@
-\section{System Implementation}
+\section{System Implementation Details}
 \phantomsection
+
+In this chapter is exposed a detailed description of the implementation details
+of the thesis project. In the following sections are presented script excerpts
+from both, the game and the controller parts of the system as well as the
+communication code that links them together.
 
 \subsection{Main Game}
 
+The development of computer games is one of the most complex branches of the
+software industry. Games encompass about a dozen different fields of mathematics
+and computer sciences, to name a few, there is three-dimensional calculus,
+differential calculus for physics, computer graphics, artificial intelligence,
+game theory, etc.
+
+Due to its complexity, game programming is among fields where the concept of
+libraries and frameworks is more relevant than ever. Along the years, developers
+around the globe have stumbled on the same problems in a recurring manner and as
+a result, a lot of experience was gained which today is materialized as game
+engines and development kits for all kind of platforms and types of games. In
+this context it is much easier to prototype a game than it was ten years ago.
+
+This thesis uses an HTML5 game framework called \emph{Phaser} which features a
+rich set of tools that are required to build a 2D video game. This includes
+rendering to an HTML Canvas or WebGL context, a physics engine, particle system,
+asset management framework, sound engine, input handling, tiles, sprites and
+much more. This framework was selected due to the ease and speed with which one
+can develop a working prototype game that looks nice enough to be presentable.
+On the other hand, 'Snowfight' is designed as an isometric game and doesn't meet
+the main purpose of the framework, but this problem is easily solved by making
+use of the framework's powerful plug-in system. The isometric plug-in extends
+the Phaser capabilities like physics into the three-dimensional world and
+perform an isometric projection on a two-dimensional canvas afterwards.
+
+% TODO link to phaser isometric
+
+
 \subsubsection{The Design of a PhaserJS Game}
+
+In order to use a tool efficiently it is important to understand how it works.
+The Phaser framework follows classic game programming patterns and has a
+standard game loop which consists of three main steps:
+
+\begin{description}
+
+\item [Input handling] - the part where the user input is collected and
+transformed into actions that are applied to the world whether it is changing
+the direction and velocity of the player's movement or throwing a snowball
+
+\item [Simulation update] - represents the process of updating the parts of the
+system that do not directly depend on user input, like collision resolution,
+object position adjustment depending on its velocity and such things as choosing
+and applying the right frame of a sprite animation
+
+\item [Rendering to screen] - consists of drawing all elements and textures on
+an HTML5 Canvas or a WebGL context. When using Phaser, the programmer would
+seldom override this step as the framework already does most of the work, with
+of some rare cases when very specific adjustments and post-processing is needed
+
+\end{description}
+
+In Phaser games, the loop itself is hidden under the hood of the framework,
+while a simple yet flexible interface is provided to the programmer to control
+and fine-tune the steps specified above. In order to bootstrap a game it is
+enough to instantiate a Phaser::Game object while providing the necessary
+callbacks as in the example below:
+
+\lstinputlisting[caption=Minimal Setup for a Phaser Game]{phaser_minimal.js}
+
+The three methods in the example are not the only ones that can be overridden
+and Phaser documentation list all of them and explains how they can be used to
+customize the various use cases. The next section not only presents these
+methods, it describes how different versions of them can be specified to be used
+in different context, thanks to the concept of game states.
+
 
 \subsubsection{Game State Management}
 
+Every game is like a living system and everything a user sees happens inside a
+game loop. Even if the screen shows the same static image, the game loop still
+runs and refreshes the screen about 60 times per second. At the same time, most
+games have a couple of situations when they behave completely different, the
+most prominent example being the case of a three-dimensional shooter or racing
+game when the user is in the menu compared to the time when he/she is engaged in
+the game itself.
+
+At the implementation level, it would be quite inconvenient to make the same
+decision dozens of times per second, specifically the decision of choosing
+whether to render the main menu or to compute the world physics and render the
+game. The decision tree and, respectively, the chain of flow-control structures
+grow as the number of these states that the game might be in, gets bigger and
+bigger.
+
+Software development techniques already include a solution to this kind of
+situation in the body of a design pattern called the state pattern. \emph{The
+Gang of Four}\cite{gof} describe a state object as one that encapsulates some
+state-dependent behavior. This maps exactly to what happens in games, various
+game states like main menu, active gameplay, cinematic cut-scenes, can be
+modeled as objects that have specific implementations of methods for
+rendering, performing updates and handling user input every frame.
+
+The Phaser framework makes extensive use of the state pattern and gives
+developers the opportunity to model their games as a series of interchanging
+states with a set of predefined methods that are called by Phaser at specific
+times in the main game loop and can be overridden in order to achieve certain
+behavior. Some of the most commonly used methods of the abstract State object
+are presented below with a small description of what are they usually used for:
+
+
+\begin{description}
+
+\item [init()] -- the very first function called when the State starts up;
+
+\item [preload()] -- normally used to load game assets;
+
+\item [create()] -- called when the State is ready to enter the game loop;
+
+\item [update()] -- is for programmer's own use in order to define main game logic;
+
+\item [preRender()] -- called after all Game Objects have been updated, but before any rendering;
+
+\item [render()] -- called after the game is rendered, for final post-processing and style effects;
+
+\item [shutdown()] -- will be called when the State is shutdown.
+
+\end{description}
+
+
+As the 'Snowfight' game is still quite small at this stage in development, it
+features two main game states. Listing \ref{lst:preload_state} shows the code
+that defines the 'preload' stage of the game. It is responsible for loading the
+assets and bootstrapping all of the game systems like physics and plug-ins. For
+this purpose it defines the \emph{preload} and \emph{create} methods.
+
+\lstinputlisting[caption=Preload State, label=lst:preload_state]{preload_state.js}
+
+The 'play' state, on the other hand, represents the description of the main
+behavior of the game. It overrides the \emph{create}, \emph{render} and
+\emph{update} methods and contains all the logic necessary to control gameplay
+process.
+
 \subsubsection{Player's State Machine}
+
+Similarly to the architecture of the whole game, various subsystems can be also
+modeled after the state pattern. Specifically the Player's behavior is heavily
+dependent on the state that it is in at a given point in time. The need for a
+stateful design aggravated at the point of developing the input handling system
+as depending on the state of the player, user input had to be processed in very
+different ways, for example when a player is disabled, movement controls have no
+effect as opposed to the normal activity of the player.
+
+The programming concept behind state handling of the player is similar to the
+one used in the game object. A player object holds a reference to a state
+manager that is responsible for keeping track of the current state as well as
+adding and storing other states. A state object, at the same time, holds the
+necessary logic to perform input handling or a player update. It also includes
+the definition of the actions that have to be executed when a player enters or
+exits a state. With this setup, when the game passes through the game loop and
+a player receives a call of the update method, for example, it delegates it to
+the state manage which in turn calls the method on the current state object.
+
+Listing \ref{lst:player_states} presents the definition of a
+dummy state as well as the code of the state manager.
+
+\lstinputlisting[caption=Player States, label=lst:player_states]{player_states.js}
+
+In his book on game programming patterns\cite{game_patterns}, Robert Nystrom
+provides an excellent example of how games can leverage the science behind the
+automata theory and how a nested chain of \emph{if} statements can be converted
+to an elegant finite state-machine. The Player class in 'Snowfight' tries to
+follow that example and model the object as a graph of states and transitions.
+
+Diagram \ref{diag:state_1} from the chapter about system design shows the states
+that a player can have and the various transitions that might happen. In some
+cases a transition takes place as a result of an event or a condition that
+evaluates to truth, at the same time some states transition to the next state
+immediately after finishing their job. A good example of such behavior is the
+transition from the player's state of \emph{throwing} a snowball back to
+\emph{moving}, which happens right away without additional conditions.
 
 \subsubsection{Physics and Rendering}
 
 \subsubsection{Uniform Interface for Input Handling}
+
+The development process becomes increasingly more difficult as the number of
+moving parts in the system grows. It also becomes harder to debug and test
+individual subsystems in isolated environments and in the case of 'Snowfight'
+the development of the game was substantially slowed down by the fact that every
+time the page was refreshed, it was necessary to reconnect the controller. In
+addition, when some problems appeared it was not clear right away whether the
+problem was in the game logic, in the controller code or in the communications
+in-between.
+
+One solution to the situation described above was to separate the game from the
+controllers and develop it separately by providing the necessary input from the
+local keyboard. This way, communication errors and bugs that concern controller
+rendering would not stagnate the evolution of the core game.
+
+From the implementation point of view the task required a unified interface for
+all possible input sources, in this case only two of them, however, such an
+approach opened opportunities to connect an artificial intelligence bot to the
+abstract input device, which permitted the addition to the game of non-player
+characters (NPC) that would be controlled by the computer.
 
 \subsubsection{High-Level Game Logic}
 
