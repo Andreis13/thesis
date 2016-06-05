@@ -172,14 +172,55 @@ to an elegant finite state-machine. The Player class in 'Snowfight' tries to
 follow that example and model the object as a graph of states and transitions.
 
 Diagram \ref{diag:state_1} from the chapter about system design shows the states
-that a player can have and the various transitions that might happen. In some
-cases a transition takes place as a result of an event or a condition that
+that a player can have (\emph{moving}, \emph{throwing} a snowball and
+\emph{disabled}) and the various transitions that might happen between them. In
+some cases a transition takes place as a result of an event or a condition that
 evaluates to truth, at the same time some states transition to the next state
 immediately after finishing their job. A good example of such behavior is the
 transition from the player's state of \emph{throwing} a snowball back to
-\emph{moving}, which happens right away without additional conditions.
+\emph{moving}, which happens right away without additional condition checks.
+
+At the implementation level transitions are performed by the player state
+manager and one can be triggered by a single line of code:
+
+\lstinputlisting[caption=Moment of Transition to the Throwing State]{state_transition.js}
+
 
 \subsubsection{Physics and Rendering}
+
+An important part of a game is how it looks and feels. This mainly depends on
+the physics and rendering systems of the game. Luckily, the Phaser framework
+includes a decent physics engine that is capable of resolving rigid body
+collisions and applying physical forces to objects. Rendering is also mostly
+handled by the framework and the customization of the visual aspect of the game
+consists of picking or drawing the right textures for the sprites.
+
+The 'Snowfight' is an isometric game and in order to turn Phaser into a pseudo-
+three-dimensional game engine, a respective plug-in is used. It extends the
+coordinate space to a three-dimensional space and allows to perform collision
+resolution in such conditions.
+
+\lstinputlisting[caption=Isometric Plug-in Setup]{plugin.js}
+
+Player animation is also an important aspect of the game. Phaser supports sprite
+animation. In case case an animated object represents just a rectangle whose
+texture is repeatedly changed in order to create the illusion of motion. It is
+a widely used technique in 2D games. In case of games with an isometric
+projection the sprites seem to gain an additional dimension.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=10cm]{8frame_combined}
+\caption{Player Spritesheet}\label{fig:knight_sprite}
+\end{figure}
+
+Figure \ref{fig:knight_sprite} represents a spritesheet with 8 looped animations
+of character motion in 8 directions with 8 frames each. In order to load and use
+these animations in the game it is necessary to tell Phaser the frame indices of
+each animation and associate every batch with a name. The listing below
+demonstrates this procedure:
+
+\lstinputlisting[caption=Sprite Animation Loading]{character_sprite.js}
 
 \subsubsection{Uniform Interface for Input Handling}
 
@@ -198,21 +239,142 @@ local keyboard. This way, communication errors and bugs that concern controller
 rendering would not stagnate the evolution of the core game.
 
 From the implementation point of view the task required a unified interface for
-all possible input sources, in this case only two of them, however, such an
+all possible input sources, in this case only two of them. However, such an
 approach opened opportunities to connect an artificial intelligence bot to the
-abstract input device, which permitted the addition to the game of non-player
+abstract input device, which permits the addition to the game of non-player
 characters (NPC) that would be controlled by the computer.
 
-\subsubsection{High-Level Game Logic}
+The base class of the Controller sets up the necessary variables and a set of
+helper functions like the one in the listing below (\ref{lst:base_controller}),
+that performs a check if a button was pressed just before the function call or
+it was down all along.
+
+\lstinputlisting[caption=Controller Base Class Highlights, label=lst:base_controller]{controller_base.js}
+
+At the same time, listings \ref{lst:local_controller} and
+\ref{lst:remote_controller} contain the specific bits of code that govern input
+collection from the local keyboard and a remote mobile device respectively. The
+main difference between the two is the fact that a local controller should be
+update every iteration of the game loop in order to represent the accurate state
+of the input device, while the remote controller is updated asynchronously by
+means of callbacks.
+
+\lstinputlisting[caption=Local Controller, label=lst:local_controller]{controller_local.js}
+
+\lstinputlisting[caption=Remote Controller, label=lst:remote_controller]{controller_remote.js}
+
+
+% \subsubsection{High-Level Game Logic}
 
 
 \subsection{Controller}
 
-\subsubsection{Mouse vs Touch Gestures}
+The second major part of the system is the remote controller that is used to
+operate a character on the main game screen. Following the motivations described
+in the chapter on domain analysis, it represents a web page rather then a native
+mobile application. As a result, it requires no prior installation procedures
+because any modern mobile device is likely to have a decent web browser that
+supports the necessary technological specifications.
 
-\subsubsection{Trackball Control Element}
+The primary goal of the controller component is to provide an experience similar
+to using a dedicated gaming device like a gamepad. The touch screen of a mobile
+phone can be used to model various control elements like buttons and joysticks.
+Even thought these fall short of three-dimensional tactile feedback, they can be
+customized and optimized for an engaging and efficient gaming experience.
+Moreover, modern browser APIs can trigger device vibrations of different
+patterns in order to provide additional feedback.
 
-\subsubsection{Buttons}
+The design of the controller and the kind of control elements it contains depend
+on the type of actions they have to operate. In case of 'Snowfight', there are
+two main activities that are controlled by the user, these are \emph{movement}
+and \emph{throwing} snowballs. The mechanics of the game state that a snowball
+is thrown in the direction of the player's current orientation. This means that
+it is not necessary to have a control element like a joystick that would control
+the direction, instead, a simple button should be enough to perform this action.
+Movement, on the other hand, is a more complex activity and is controlled two
+parameters, mainly, direction and speed. An ergonomic solution to this task is a
+joystick-like control element. In the context of this system, the element is
+called a track ball as it resembles a ball when viewed on the screen.
+
+Figure \ref{fig:gamepad} represents a development version of the web-based
+'gamepad' rendered on the screen of a mobile device in landscape mode. The left
+side contains the track ball element for movement and the right side has the
+button for throwing snowballs. The blue button at the top is a shortcut for
+switching to full-screen mode.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=15cm]{gamepad_nexus}
+\caption{Web-based Gamepad}\label{fig:gamepad}
+\end{figure}
+
+As it is a web application, the controller and its elements are nothing but an
+HTML5 document with appropriate styles and some scripts attached. The controller
+layout is presented in the listing below. All elements are constructed of
+\emph{div} tags that have specific class and id attributes in order to be later
+processable by style-sheets and scripts.
+
+
+\lstinputlisting[language=HTML, caption=HTML Layout of the Controller]{controller.html}
+
+%\subsubsection{Mouse vs Touch Gestures}
+
+\subsubsection{Track Ball Control Element}
+
+In order to control character movement, it is necessary to represent some how
+numerically this activity. In its simplest instance, movement on a plane has a
+direction and speed, this maps perfectly onto the characteristics of a two-
+dimensional vector, specifically its orientation and magnitude. Given a data
+model, the next step is to come up with a control element that is able to
+generate such data as a result of user input. On conventional gamepads this
+feature is attributed to joysticks. They can be tilted to a certain degree
+within a range in 2 directions, thus generating a set of 2D coordinates.
+Joysticks also include a spring that returns them to the initial position in
+case of no user input.
+
+In the context of a touch screen device, it is not that simple to create a
+moving stick, however, it is possible to draw a kind of ball that would track
+the motion of a finger pressing on the screen and would reset to its initial
+position when the touch motion is terminated. In addition, the web browser
+interprets touch events in a different way from events generated by a mouse
+device. Moreover, complex gestures like \emph{pan}, \emph{pinch zoom},
+\emph{rotate} and \emph{swipe} require considerable effort in writing code that
+detects these gestures, identifies the right type and fetches appropriate data
+sets. Luckily, these problems have been solved by other people who developed
+libraries specifically for such tasks. This thesis project makes use of the
+HammerJS\cite{hammer} library that can recognize an handle gestures made by
+touch, mouse and pointerEvents.
+
+Gesture recognition is easily enabled by creating a \emph{Hammer} object
+instance and specifying the HTML element that should trigger the events.
+
+\lstinputlisting[caption=HammerJS Setup, label=lst:hammer]{hammer.js}
+
+Listing \ref{lst:hammer} demonstrates how the ball element is passed to a
+\emph{Hammer} object. After that, an option is specified to track \emph{panning}
+motion in all direction. The \emph{pan} recognizer generates 3 kinds of events:
+\emph{panstart}, \emph{panmove}, \emph{panend}. The listing above also shows how
+callbacks are attached to each of the events in order to make use of the
+information that is generated by them.
+
+
+\subsubsection{Button}
+
+The button part of the controller was considerably easier to implement as there
+where no gestures involved. However, there was one aspect that had to be
+clarified. When a button is pressed, its color should change to give some kind
+of feedback to the user. This can be done through CSS pseudo-classes in a
+trivial way, but it turns out such an approach has a drawback. There is a delay
+of approximately 300ms between clicking on the button and the color change. In
+case of usual websites it is almost unnoticeable, however, in case of games,
+immediate feedback is crucial and the lack of it impacts severely the user
+experience.
+
+A logic workaround to this problem is to trigger the color change through
+JavaScript code, by adding or removing the respective CSS class attribute, as it
+is shown in listing \ref{lst:button}
+
+\lstinputlisting[caption=Button Color Switch, label=lst:button]{button_color.js}
 
 
 \subsection{Peer to Peer Communication}
@@ -220,6 +382,8 @@ characters (NPC) that would be controlled by the computer.
 \subsubsection{Setting Up a Connection with PeerJS}
 
 \subsubsection{Communication Protocol}
+
+\subsection{System Shortcomings}
 
 \subsection{Implementation Conclusions}
 
