@@ -21,7 +21,7 @@ a result, a lot of experience was gained which today is materialized as game
 engines and development kits for all kind of platforms and types of games. In
 this context it is much easier to prototype a game than it was ten years ago.
 
-This thesis uses an HTML5 game framework called \emph{Phaser} which features a
+This thesis uses an HTML5 game framework called \emph{Phaser}\cite{phaser} which features a
 rich set of tools that are required to build a 2D video game. This includes
 rendering to an HTML Canvas or WebGL context, a physics engine, particle system,
 asset management framework, sound engine, input handling, tiles, sprites and
@@ -377,14 +377,133 @@ is shown in listing \ref{lst:button}
 \lstinputlisting[caption=Button Color Switch, label=lst:button]{button_color.js}
 
 
+%\subsubsection{Responsive Design}
+
 \subsection{Peer to Peer Communication}
+
+Communication is the focal point of this thesis and makes all parts of the
+system work as a whole. The game and the controller are nothing but simple web
+applications and present no special value by themselves. In order to make them
+communicate and interact, it is possible to apply several techniques. Most
+things on the web communicate under a client-server architecture. This implies
+there is an entity (a server) that orchestrates the whole process, it performs
+all computations and provides services to the clients who always connect
+directly to it. This project, however, has a slightly different twist to it.
+
+The game and the controller are both applications are executed on the client
+machine, moreover, there can be many simultaneous game sessions that must not
+overlap in terms of communication. If the system were to employ the client-
+server architecture, all the communications would have to be proxied through a
+main server which would maintain control over all games and controllers.
+Obviously, this model would be painfully slow and inefficient as large amounts
+of data would have to travel long distances between devices and the server even
+though the game computer and all the player are located in the same room and
+connected to the same network.
+
+In this context, the best option is a peer-to-peer communication model that
+permits the exchange of information between parties directly, without the use of
+intermediaries. Modern browser have recently introduced support for the WebRTC
+technology that enables peer-to-peer communication with the use of a server only
+for establishing the connection.
+
 
 \subsubsection{Setting Up a Connection with PeerJS}
 
+WebRTC programming interfaces are quite low level and performing the basic tasks
+requires considerable effort from the developer. As with other software there
+are libraries that have gathered the boilerplate code that is often used in
+projects and hide it under simpler and higher level APIs. 'Snowfight' uses
+PeerJS\cite{peerjs} which wraps the browser's WebRTC implementation to provide a complete,
+configurable, and easy-to-use peer-to-peer connection API. Equipped with nothing
+but an ID, a peer can create a P2P data or media stream connection to a remote
+peer.
+
+\lstinputlisting[caption=PeerJS Initialization, label=lst:peer_init]{peer_creation.js}
+
+Listing \ref{lst:peer_init} shows how easy it is to initialize a Peer object. It
+is enough to provide the address and port of a PeerJS server that will broker
+the connections. A data connection is established simply by invoking the
+\emph{connect} method on the Peer object. At the same time it is possible to
+send arbitrary metadata that will be associated with the connection, in this
+case it is the player's name which can be entered by the user. Once a connection
+is open, it is trivial to send data over it:
+
+\lstinputlisting[caption=Sending Data Using a 'DataConnection' Object]{peer_send.js}
+
+When a controller initiates a peer-to-peer connection, the game lobby has to
+catch this event and execute the necessary procedures in order to be able to
+receive data. As many other things in JavaScript this is done by the use of
+callbacks that are attached to specific events. Listing \ref{lst:peer_hub_init}
+shows that every incoming connection object, that is intercepted by the game
+while in lobby, is collected in a JavaScript array.
+
+\lstinputlisting[caption=Connection Gathering, label=lst:peer_hub_init]{peer_hub_create.js}
+
+Later on, at the initialization step of the game, every connection is attached
+to a \emph{RemoteController} object, which in turn, sets callbacks (listing
+\ref{lst:controller_callbacks}) that process incoming data and update the
+internal state of the controller.
+
+\lstinputlisting[caption=Controller Callbacks, label=lst:controller_callbacks]{controller_callbacks.js}
+
+
 \subsubsection{Communication Protocol}
 
-\subsection{System Shortcomings}
+Establishing a connection is definitely not enough for an efficient and fruitful
+communication. The chosen format of data that is to be exchanged between the
+parties can heavily influence the flexibility and the performance of the system.
+Devising a protocol is not a simple task because there are a lot of questions
+that a developer should be able to answer before proceeding to the
+implementation step.
+
+Some of the things that should be clarified are listed below:
+
+\begin{itemize}
+\item what kind of data to transmit
+\item how to order the data inside of a message
+\item how to encode the transmission
+\item how reliable should be the connection
+\end{itemize}
+
+The fact that a communication library is being used, greatly simplifies some of
+the aspects of the protocol. For instance, PeerJS by default encodes all
+messages in binary be it a string or a JavaScript object. The gaming context
+also emphasizes performance over reliability, that is, if a message about the
+current position of the trackball is lost, nothing catastrophic will happen.
+
+The question that remains, though, is what kind of data should be sent from the
+controller to the game and how should a message be formatted. At this point in
+development, the system needs only two types of messages, one about the
+trackball position changes and one about the changes in the state of a button.
+These to types can be easily differentiated by a \emph{type} field in the top
+level object of the message. In addition, a small number of message types does
+not enforce a deeply nested structure. Listings \ref{lst:trackball_msg} and
+\ref{lst:button_msg} represent examples of messages for trackball position
+change and a button event respectively:
+
+\lstinputlisting[caption=Trackball Message, label=lst:trackball_msg]{trackball_msg.json}
+
+\lstinputlisting[caption=Button Message, label=lst:button_msg]{button_msg.json}
+
+This protocol is by far not the best and the most efficient, but it works fine
+for the current state of the system. At the same time, in case of further
+development, it is certain that the message format will change drastically.
 
 \subsection{Implementation Conclusions}
+
+This chapter of the thesis gave an overview of the tools and techniques used
+build all the parts of the system. It presented the Phaser framework and a
+typical structure of a game that uses this framework. The sections about the
+controller explained the motivation behind its components and control elements.
+The final sections on peer-to-peer communication described the procedures that
+where employed in order to establish a communication channel between the
+controller and the main game. It also provided a brief description of the
+protocol used to exchange information and control messages between the parties.
+
+Overall, the technical side of the project is relatively straight forward and
+does not contain scientific breakthroughs nor great innovations. On the other
+hand, it represents an attempt to realize an already existing concept and
+identify various pattern that can be reused in other projects on a greater and
+more innovative scale.
 
 \clearpage
