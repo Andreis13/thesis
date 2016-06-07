@@ -9,7 +9,7 @@ usually starts off by laying out a general picture and then deepens into more
 detailed views of the inner workings of the system.
 
 
-\subsection{Use Case Layout of the Game}
+\subsection{System Use Cases}
 
 Use case diagrams are used to provide a good understanding of what a user can
 do with the application in question. In a nutshell, a game is out there to be
@@ -17,10 +17,10 @@ played and the 'Snowfight' is no exception. The gameplay has a rather simple
 concept behind it and includes several things:
 
 \begin{itemize}
-	\item Moving around the field
-	\item Throwing snowballs at adversaries
-	\item Being eliminated from a game by being hit with snowballs
-	\item Using the phone as a controller device
+	\item Moving around the field;
+	\item Throwing snowballs at adversaries;
+	\item Being eliminated from a game by being hit with snowballs;
+	\item Using the phone as a controller device.
 \end{itemize}
 
 Besides playing the game itself, the players are able to view game results after
@@ -78,15 +78,15 @@ pass and which have different things to render and process.
 The game in question has four main states:
 
 \begin{description}
-	\item [Lobby] - works like a simple web page and is used to gather players before game
-	\item [Asset pre-loading] - is the period after the 'start' button was hit, but before the game simulation begins, and it is responsible for preparing all the assets before they are used
-	\item [Active game] - the state in which the main gameplay takes place that performs all physics computations and rendering, it also includes the game logic
-	\item [Results overview] - is like an interlude between matches, when the game simulation is stopped and only information about the match is rendered to the screen
+	\item [Lobby] - works like a simple web page and is used to gather players before game;
+	\item [Asset pre-loading] - is the period after the 'start' button was hit, but before the game simulation begins, and it is responsible for preparing all the assets before they are used;
+	\item [Active game] - the state in which the main gameplay takes place that performs all physics computations and rendering, it also includes the game logic;
+	\item [Results overview] - is like an interlude between matches, when the game simulation is stopped and only information about the match is rendered to the screen.
 \end{description}
 
 \begin{figure}[!h]
 \centering
-\includegraphics[width=15cm]{diagrams/state_2}
+\includegraphics[width=10cm]{diagrams/state_2}
 \caption{Game States}\label{diag:state_2}
 \end{figure}
 
@@ -107,7 +107,7 @@ situation of a disabled player when any kind of input has a null result.
 
 \begin{figure}[!h]
 \centering
-\includegraphics[width=\textwidth]{diagrams/state_1}
+\includegraphics[width=13cm]{diagrams/state_1}
 \caption{Player States}\label{diag:state_1}
 \end{figure}
 
@@ -213,9 +213,9 @@ includes a wrapper library that features a pre-configured server application.
 This server application can be deployed in one of the three variants:
 
 \begin{itemize}
-	\item Hosted on the same machine as the web server
-	\item Deployed to a separate dedicated server
-	\item A third-party SaaS (Software as a Service) solution
+	\item Hosted on the same machine as the web server;
+	\item Deployed to a separate dedicated server;
+	\item A third-party SaaS (Software as a Service) solution.
 \end{itemize}
 
 The diagram that follows, illustrates the second type of deployment when the web

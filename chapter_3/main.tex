@@ -45,17 +45,17 @@ standard game loop which consists of three main steps:
 
 \item [Input handling] - the part where the user input is collected and
 transformed into actions that are applied to the world whether it is changing
-the direction and velocity of the player's movement or throwing a snowball
+the direction and velocity of the player's movement or throwing a snowball;
 
 \item [Simulation update] - represents the process of updating the parts of the
 system that do not directly depend on user input, like collision resolution,
 object position adjustment depending on its velocity and such things as choosing
-and applying the right frame of a sprite animation
+and applying the right frame of a sprite animation;
 
 \item [Rendering to screen] - consists of drawing all elements and textures on
 an HTML5 Canvas or a WebGL context. When using Phaser, the programmer would
 seldom override this step as the framework already does most of the work, with
-of some rare cases when very specific adjustments and post-processing is needed
+of some rare cases when very specific adjustments and post-processing is needed.
 
 \end{description}
 
@@ -458,10 +458,10 @@ implementation step.
 Some of the things that should be clarified are listed below:
 
 \begin{itemize}
-\item what kind of data to transmit
-\item how to order the data inside of a message
-\item how to encode the transmission
-\item how reliable should be the connection
+\item what kind of data to transmit;
+\item how to order the data inside of a message;
+\item how to encode the transmission;
+\item how reliable should be the connection.
 \end{itemize}
 
 The fact that a communication library is being used, greatly simplifies some of
