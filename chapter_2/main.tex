@@ -90,6 +90,12 @@ The game in question has four main states:
 \caption{Game States}\label{diag:state_2}
 \end{figure}
 
+Such a stateful approach encourages the separation of logic that concerns
+different parts of the system and uses an elegant way to interchange behavior
+when certain events happen. In addition, when game states are isolated from each
+other it is possible to use resources more efficiently as it is not necessary to
+process all game graphics and physics when the player is in the main menu.
+
 \newpage
 
 \subsection{Player States}
@@ -125,6 +131,17 @@ player in question is assessed and recalculated and if it is equal to zero, the
 player enters the \emph{disabled} state and is considered eliminated from the
 game till the end of the match, otherwise, an automatic transition back to the
 \emph{moving} state takes place.
+
+Modeling entities as finite state machines can be very rewarding because they
+can untangle large chains of conditional statements and group relevant behavior
+of an object in isolated chunks of code. This approach is not a silver bullet,
+however, and also has some drawbacks. For example, if an object might need to
+know the previous state that it was in, but with the current setup it is
+oblivious. Therefore, more advanced systems usually make use of the concept
+known as push-down automata, this can be viewed as a combination between state
+machines and stack data structures. With push-down automata it is possible to
+return to the previous state of the object. For this game, however, it is
+perfectly enough to have a simple system with a small number of states.
 
 \newpage
 

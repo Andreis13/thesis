@@ -2,9 +2,7 @@ Play.prototype.makePlayerSprite = function (x, y) {
   var sprite = this.game.add.isoSprite(x, y, 100, 'knight_8frame',
                                        0, this.groups.players);
   sprite.anchor.set(0.5);
-
   this.physics.isoArcade.enable(sprite);
-
   sprite.body.setSize(18, 18, 60, 0, 0, -18);
 
   sprite.animations.add('south_east', [0, 1, 2, 3, 4, 5, 6, 7],  20, true);

@@ -81,15 +81,14 @@ game loop. Even if the screen shows the same static image, the game loop still
 runs and refreshes the screen about 60 times per second. At the same time, most
 games have a couple of situations when they behave completely different, the
 most prominent example being the case of a three-dimensional shooter or racing
-game when the user is in the menu compared to the time when he/she is engaged in
-the game itself.
+simulation game when the user is in the main menu compared to the time when
+he/she is engaged in the gameplay itself.
 
 At the implementation level, it would be quite inconvenient to make the same
 decision dozens of times per second, specifically the decision of choosing
 whether to render the main menu or to compute the world physics and render the
 game. The decision tree and, respectively, the chain of flow-control structures
-grow as the number of these states that the game might be in, gets bigger and
-bigger.
+grow with the number of these states that the game might be in.
 
 Software development techniques already include a solution to this kind of
 situation in the body of a design pattern called the state pattern. \emph{The
@@ -205,7 +204,9 @@ Player animation is also an important aspect of the game. Phaser supports sprite
 animation. In case case an animated object represents just a rectangle whose
 texture is repeatedly changed in order to create the illusion of motion. It is
 a widely used technique in 2D games. In case of games with an isometric
-projection the sprites seem to gain an additional dimension.
+projection the sprites seem to gain an additional dimension. This is, however,
+just an illusion created by graphics artists and the definition of the sprite
+remains the same, it is a rectangular texture oriented towards the camera.
 
 \begin{figure}[!h]
 \centering
@@ -342,10 +343,10 @@ detects these gestures, identifies the right type and fetches appropriate data
 sets. Luckily, these problems have been solved by other people who developed
 libraries specifically for such tasks. This thesis project makes use of the
 HammerJS\cite{hammer} library that can recognize an handle gestures made by
-touch, mouse and pointerEvents.
-
-Gesture recognition is easily enabled by creating a \emph{Hammer} object
-instance and specifying the HTML element that should trigger the events.
+touch, mouse and pointerEvents. Gesture recognition is easily enabled by
+creating a \emph{Hammer} object instance and specifying the HTML element that
+should trigger the events. Different options can be passed along in order to
+customize different parts of the recognition process.
 
 \lstinputlisting[caption=HammerJS Setup, label=lst:hammer]{hammer.js}
 
