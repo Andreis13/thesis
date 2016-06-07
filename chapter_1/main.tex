@@ -1,22 +1,4 @@
 \section{Domain Analysis}
-\phantomsection
-
-% User Interfaces
-% Maybe a brief history
-% Types of interactions / user interfaces
-% Keyboard
-% Mouse
-% Gamepad
-% Wii-like controllers
-% Feedback
-% All-in-one mobile device
-% Native applications
-% The Web context
-% The problem of real-time over network (examples of usual contexts like sending notifications)
-% WebSockets vs WebRTC (with examples of applications like Hangouts)
-% Gaming (with examples from Google like the Starwars game and the Sports game)
-% The need of a framework
-
 
 \subsection{User Interfaces and Input Devices}
 
@@ -219,10 +201,89 @@ that would provide a smooth and responsive gaming experience.
 
 \subsection{Real-Time Communication over the Web} % about communication technologies
 
-\subsubsection{Client - Server Communication} % Websockets
+One of the main uses of the Internet is hosting and accessing web pages. When a
+user writes a URL in the browser's search bar and presses 'enter', the browser
+preforms an HTTP request to the server specified by the URL and fetches a web
+page. At this point in time, for most cases, the communication between the
+server and the client (browser) is ceased until the user clicks on another link
+that would restart the process.
 
-\subsubsection{Peer to Peer Communication} % WebRTC
+On the other hand, modern web has greatly developed during the past few years.
+Internet connection speed has increased dramatically, and many websites have
+stopped being just static web pages and have moved towards a more dynamic model.
+They are not even called websites, today, all around the world there are web
+applications.
 
+With the requirements for a more dynamic web came also the technical challenges
+of making it so. For instance, how would a user's browser receive a notification
+about a message that was sent to this user from another part of the globe? When
+such questions just appeared, developers tried different techniques using the
+old tools they had at hand at that time. The concepts of HTTP Long Polling and
+HTTP Streaming appeared in this period. Soon, however, they were found to be
+causing quite a bit of issues\cite{long_polling_issues} and a need for custom
+protocols arose.
+
+As the web is mainly composed of clients and servers, the logical outcome was a
+protocol that would connect them and would permit bidirectional communication
+between the server and its clients, thus WebSockets were proposed. At the same
+time, browsers grew and their uses extended. Soon, real-time communication out-
+sized the context of client-server architecture and when video chat applications
+and multiplayer games started to conquer the web realm, engineers developed
+WebRTC, which solved the issue of communication in peer-to-peer setups. A brief
+description of both protocols as per their RFCs is presented in the sections
+that follow.
+
+\subsubsection{WebSockets for Client-Server Communication} % Websockets
+
+Historically, creating web applications that need bidirectional communication
+between a client and a server (e.g., instant messaging and gaming applications)
+has required an abuse of HTTP to poll the server for updates while sending
+upstream notifications as distinct HTTP calls.
+
+As RFC6455\cite{websockets} points out, this results in a variety of problems:
+
+\begin{itemize}
+
+\item The server is forced to use a number of different underlying TCP
+  connections for each client: one for sending information to the
+  client and a new one for each incoming message.
+
+\item The wire protocol has a high overhead, with each client-to-server
+  message having an HTTP header.
+
+\item The client-side script is forced to maintain a mapping from the
+  outgoing connections to the incoming connection to track replies.
+
+\end{itemize}
+
+A simpler solution would be to use a single TCP connection for traffic in both
+directions. This is what the WebSocket Protocol provides. Combined with the
+WebSocket API, it provides an alternative to HTTP polling for two-way
+communication from a web page to a remote server.
+
+The same technique can be used for a variety of web applications: games, stock
+tickers, multiuser applications with simultaneous editing, user interfaces
+exposing server-side services in real time, etc.
+
+The WebSocket Protocol is designed to supersede existing bidirectional
+communication technologies that use HTTP as a transport layer to benefit from
+existing infrastructure (proxies, filtering, authentication). Such technologies
+were implemented as trade-offs between efficiency and reliability because HTTP
+was not initially meant to be used for bidirectional communication. The
+WebSocket Protocol attempts to address the goals of existing bidirectional HTTP
+technologies in the context of the existing HTTP infrastructure; as such, it is
+designed to work over HTTP ports 80 and 443 as well as to support HTTP proxies
+and intermediaries, even if this implies some complexity specific to the current
+environment. However, the design does not limit WebSocket to HTTP, and future
+implementations could use a simpler handshake over a dedicated port without
+reinventing the entire protocol. This last point is important because the
+traffic patterns of interactive messaging do not closely match standard HTTP
+traffic and can induce unusual loads on some components.
+
+
+\subsubsection{WebRTC for Peer to Peer Communication} % WebRTC
+
+\newpage
 
 % \subsection{Mobile devices Game Controllers} % game controllers + web
 
@@ -234,10 +295,18 @@ that would provide a smooth and responsive gaming experience.
 
 \subsubsection{Lightsaber Escape} % https://lightsaber.withgoogle.com/
 
+\newpage
+
 \subsubsection{Super Sync Sports} % https://www.chrome.com/supersyncsports/
+
+\newpage
 
 \subsection{Project Description}
 
+\newpage
+
 \subsection{Domain Analysis Conclusions}
+
+\newpage
 
 \clearpage

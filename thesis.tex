@@ -8,75 +8,59 @@
 
 \begin{document}
 
-\numberwithin{lstlisting}{section}
+\pagenumbering{gobble} % disable page numbering
 
-\setcounter{page}{11}
+% TODO: INCLUDE TITLE PAGES
 
-% \phantomsection
-% \addcontentsline{toc}{section}{Abstract}
-% \input{misc/abstract.tex}
-% \cleardoublepage
+\input{misc/abstract.tex}
 
-% \phantomsection
-% \addcontentsline{toc}{section}{Rezumat}
-% \input{misc/rezumat.tex}
-% \cleardoublepage
+\input{misc/rezumat.tex}
 
 
 \tableofcontents
-\addtocontents{toc}{\protect\thispagestyle{empty}} % no page number on the table of contents page
-\cleardoublepage
+\clearpage
 
-% LISTA FIGURILOR. Este recomandabila daca in text ai peste cel putin 10-15 FIGURI
-\listoffigures
+\pagenumbering{arabic} % re-enable page numbering
+\setcounter{page}{10} % TODO: FIX PAGE NUMBERING
+
+
+
+\phantomsection
 \addcontentsline{toc}{section}{List of figures}
+\listoffigures
 \clearpage
 
-% LISTA TABELELOR. Este recomandabila daca in text ai peste cel putin 10-15 tabele
-\listoftables
-\addcontentsline{toc}{section}{List of tables}
-\clearpage
 
-\lstlistoflistings
-\addcontentsline{toc}{section}{Listings}
-\clearpage
-
-% ABREVIERI. Este recomandabila doar daca utilizezi in text peste 10-15 abrevieri
 % \phantomsection
-% \addcontentsline{toc}{section}{Abbreviations}
-% \input{misc/abbreviations.tex}
-% \cleardoublepage
+% \addcontentsline{toc}{section}{List of tables}
+% \listoftables
+% \clearpage
 
 
-% Introduction
-%\setcounter{page}{17}
 \phantomsection
-\addcontentsline{toc}{section}{Introduction}
+\addcontentsline{toc}{section}{Listings}
+\numberwithin{lstlisting}{section}
+\lstlistoflistings
+\clearpage
+
+
 \input{misc/introduction.tex}
-\cleardoublepage
 
-% Chapter 1
 \input{chapter_1/main.tex}
-\cleardoublepage
-
-% Chapter 2
 \input{chapter_2/main.tex}
-\cleardoublepage
-% \addtocontents{toc}{\protect\newpage}
 
-% Chapter 3
+% IMPORTANT REMARK
+% If your table of contents needs to be split in two parts (in order to
+% accommodate the frame used for TOC) within the body text, right before the
+% chapter/section that you want to be started on a new page, you should add:
+\addtocontents{toc}{\protect\newpage}
+
 \input{chapter_3/main.tex}
-\cleardoublepage
-
-% Chapter 4
 \input{chapter_4/main.tex}
-\cleardoublepage
 
-
-\phantomsection
-\addcontentsline{toc}{section}{Conclusions}
 \input{misc/conclusions.tex}
-\cleardoublepage
+
+
 
 
 \addcontentsline{toc}{section}{References}
