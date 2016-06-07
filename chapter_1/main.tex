@@ -53,18 +53,34 @@ are listed below:
 
 \begin{description}
 
-	\item [Gamepad] is a general-purpose gaming device that is used as a
-		controller for a wide range of game genres, from arcades and fighting
-		games to role-playing titles and action third-person shooters.
+    \item [Gamepad] is a general-purpose gaming device that is used as a
+        controller for a wide range of game genres, from arcades and fighting
+        games to role-playing titles and action third-person shooters.
 
-	\item [Joystick] is a specialized controller that is often used in flight
-		simulation games, although its use can be extended far beyond gaming, for such
-		purposes as remote control of a robot arm in a warehouse.
+    \item [Joystick] is a specialized controller that is often used in flight
+        simulation games, although its use can be extended far beyond gaming, for such
+        purposes as remote control of a robot arm in a warehouse.
 
-	\item [Steering Wheel] is used to provide almost authentic driving
-		experience in racing video games and simulators. \end{description}
+    \item [Steering Wheel] is used to provide almost authentic driving
+        experience in racing video games and simulators.
+
+\end{description}
 
 % picture of stuff mentioned above
+
+\begin{figure}[!ht]
+    \centering
+    \subfloat[Gamepad\label{fig:gamepad}]{
+      \includegraphics[width=0.3\textwidth]{ps_controller}
+    }
+    \subfloat[Steering Wheel Controller\label{fig:wheel}]{
+      \includegraphics[width=0.3\textwidth]{steering_wheel}
+    }
+    \subfloat[Joystick\label{fig:joystick}]{
+      \includegraphics[width=0.3\textwidth]{logitech_joystick}
+    }
+    \caption{Examples of Input Devices for Gaming}
+\end{figure}
 
 % include info about Nintendo Wii
 
@@ -119,7 +135,7 @@ the same screen.
 \subsection{Mobile Devices as Controllers for Desktop Computers}
 
 When comparing the features of a specialized gaming device like \emph{Nintendo
-Wii} Controller and the capabilities of a modern smart-phone, an interesting
+Wii}\cite{wiimote} Controller and the capabilities of a modern smart-phone, an interesting
 pattern of similarities can be observed. Both are able to capture device
 motion and position. Both respond to clicks of buttons in case of a gamepad
 and taps in designated areas in case of a phone. Touch screens can be used to
@@ -129,7 +145,8 @@ short of, is ergonomics, but to a certain extent this can be neglected. With
 such a list of similarities, a logical question appears: Why not use mobile
 phones as gaming controllers for desktop games?
 
-\subsubsection{The Problem}
+
+\subsubsection{Usability Limitations}
 
 As it turns out, now that smart-phones run full-fledged operating systems,
 connecting one to a computer is not that hard of a task. Mobile operating
@@ -159,7 +176,8 @@ probably needed only for one-time use and don't hold any value by themselves
 without the main game. Fortunately both problems can be solved relatively
 simple through the same solution.
 
-\subsubsection{The Solution}
+
+\subsubsection{Web-based Workaround}
 
 One thing that all modern smart-phones have in common is a decent web browser.
 Today, browsers are more than just viewers of HTML documents, they are entire
@@ -193,13 +211,11 @@ from the game. The goal of the game is to eliminate all players from the
 adversary team.
 
 In order to implement this project it is necessary to explore the topic of
-real-time communication in web, as to be able to chose the right technology
+real-time communication in the web, as to be able to chose the right technology
 that would provide a smooth and responsive gaming experience.
 
 
-
-
-\subsection{Real-Time Communication over the Web} % about communication technologies
+\subsection{Real-Time Communication over the Web}
 
 One of the main uses of the Internet is hosting and accessing web pages. When a
 user writes a URL in the browser's search bar and presses 'enter', the browser
@@ -283,7 +299,90 @@ traffic and can induce unusual loads on some components.
 
 \subsubsection{WebRTC for Peer to Peer Communication} % WebRTC
 
-\newpage
+Real-time communication has been on the market for a while, however, it was
+implemented mainly in corporate environments as in-house solutions. It was quite
+expensive in terms of effort to include such technology in existing projects
+especially in the context of the web. In recent years this started to change
+with the appearance of various frameworks and APIs.
+
+WebRTC\cite{webrtc_org} is a free, open project that provides browsers and
+mobile applications with Real-Time Communications (RTC) capabilities via simple
+APIs. The WebRTC components have been optimized to best serve this purpose.
+Due to its properties, WebRTC is of particular interest for the development
+of the project for the present thesis.
+
+As Sam Dutton points out in his article\cite{webrtc_basics}, WebRTC has now
+implemented open standards for real-time, plugin-free video, audio and data
+communication. This solves a range of problems relevant to real-time
+communications:
+
+\begin{itemize}
+    \item Many web services already use RTC, but need downloads, native apps or
+        plugins. These includes Skype, Facebook and Google Hangouts.
+
+    \item Downloading, installing and updating plug-ins can be complex, error
+        prone and annoying.
+
+    \item Plugins can be difficult to deploy, debug, troubleshoot, test and
+        maintain, and may require licensing and integration with complex,
+        expensive technology. It's often difficult to persuade people to install
+        plugins in the first place.
+\end{itemize}
+
+The guiding principles of the WebRTC project are that its APIs should be open
+source, free, standardized, built into web browsers and more efficient than
+existing technologies. Presently it is capable of enabling efficient
+transmission of audio, video and arbitrary data in a peer-to-peer fashion. At
+the same time WebRTC still needs servers because of the following
+reasons\cite{webrtc_realworld}:
+
+\begin{itemize}
+
+\item For clients to exchange metadata to coordinate communication: this is
+called signaling.
+
+\item To cope with network address translators (NATs) and firewalls.
+
+\end{itemize}
+
+
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=12cm]{webrtc_stun}
+\caption{Session Traversal Utilities for NAT (STUN)}\label{fig:stun}
+\end{figure}
+
+Signaling is the process of coordinating communication. In order for a WebRTC
+application to set up a 'call', its clients need to exchange information like
+session control messages, error messages, as well as metadata and settings. This
+signaling process needs a way for clients to pass messages back and forth. To
+avoid redundancy and to maximize compatibility with established technologies,
+signaling methods and protocols are not specified by WebRTC standards. This
+approach is outlined by the JavaScript Session Establishment
+Protocol\cite{jsep}.
+
+In order to find the best route from peer to peer, WebRTC makes use of ICE
+(Interactive Connectivity Establishment) technologies. Usually two kinds of
+methods are used, Session Traversal Utilities for NAT (STUN) and Traversal Using
+Relays around NAT (TURN). WebRTC uses a STUN server to find a direct connection
+between peers in order to achieve the smallest latency. If no such connection
+can be established, the process falls back to using a TURN server that works as
+relay for all further communications. Figures \ref{fig:stun} and \ref{fig:turn}
+showcase both situation in a visual manner:
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=12cm]{webrtc_turn}
+\caption{Traversal Using Relays around NAT (TURN)}\label{fig:turn}
+\end{figure}
+
+WebRTC is the most appealing technical solution for the project proposed in this
+thesis. The protocol will make sure that the players will be connected to the
+game using the shortest possible network route therefore having the smallest
+latency. In most cases players will be located behind the same NAT, and after
+establishing a connection, no data will travel further than to the router.
+
 
 % \subsection{Mobile devices Game Controllers} % game controllers + web
 
@@ -291,22 +390,162 @@ traffic and can induce unusual loads on some components.
 
 % \subsubsection{Web Apps}
 
-\subsection{Solutions on the Market}
+\subsection{Existing Solutions on the Market}
+
+Even though WebRTC is a quite fresh technology, there are already plenty of
+projects using it. Some of these projects are created by developers as part of
+the Chrome Experiments\cite{chromeexperiments} project, in order to demonstrate
+the technology and its capabilities. Two projects in particular are of interest
+to this thesis as they represent the concept of a mobile phone being used as a
+gaming controller. The following sections briefly describe the games and point
+out things that may be applied to this thesis.
 
 \subsubsection{Lightsaber Escape} % https://lightsaber.withgoogle.com/
 
-\newpage
+The Lightsaber Escape\cite{lightsaber} is a small single-player arcade game
+created by Lucasfilm Ltd in collaboration with Google in order to promote the
+seventh film in the Star Wars trilogy. It requires a personal computer a
+supported mobile device and an Internet connection. To play the game, the user
+has to access the main page of the game
+(\url{https://lightsaber.withgoogle.com/}) in a browser window on the computer
+(figure \ref{fig:lightsaber_home}).
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=10cm]{lightsaber_home}
+\caption{Home Page of Lightsaber Escape}\label{fig:lightsaber_home}
+\end{figure}
+
+The user is presented with a short link that has to be entered in the navigation
+bar of the browser on the mobile device. This brings the user to a page with
+instructions to calibrate the device (figure \ref{fig:lightsaber_calibrate}).
+During the calibration process, a connection is established between the phone
+and the computer and the phone's gyroscope and accelerometer are calibrated.
+After this procedure the lightsaber becomes active (figure
+\ref{fig:lightsaber_active}):
+
+\begin{figure}[!ht]
+    \centering
+    \subfloat[Calibration Screen\label{fig:lightsaber_calibrate}]{
+      \includegraphics[width=0.25\textwidth]{lightsaber_calibrate}
+    }
+    \hspace{0.1\textwidth}
+    \subfloat[Active Lightsaber\label{fig:lightsaber_active}]{
+      \includegraphics[width=0.25\textwidth]{lightsaber_active}
+    }
+    \caption{Lightsaber Escape as Seen on a Mobile Phone}
+\end{figure}
+
+With an active lightsaber, the player can start the gameplay, which consists of
+dodging enemy laser blasts by controlling the lightsaber through movements of
+the mobile phone. The player passes a couple of corridors in such a manner,
+until he/she reaches a hand-to-hand combat encounter that resolves to the game's
+finale.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=10cm]{lightsaber_game}
+\caption{Lightsaber Escape Gameplay}\label{fig:lightsaber_game}
+\end{figure}
+
+There are a couple of important things to note about this game. The clever way
+in which are leveraged the motion-detection capabilities of a phone makes for a
+really engaging experience, even though the whole gameplay lasts only about 5
+minutes. If played on a powerful computer with a decent GPU, it could be noticed
+that control mechanism is very smooth and responsive, this is thanks to an
+efficient use of network traffic in the communication between devices. Overall
+this game is a good way to promote a product using innovative technology and it
+gives some hints on how to develop the project of this thesis.
 
 \subsubsection{Super Sync Sports} % https://www.chrome.com/supersyncsports/
 
+Super Sync Sports\cite{sports} is another Chrome Experiment with the same
+concept of connecting a mobile phone to a computer in order to achieve an
+interactive experience. This game has support for multiplayer gameplay for each
+of the three game modes. Cycling mode is shown in figure \ref{fig:sports_game}.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=10cm]{sports_game}
+\caption{Super Sync Sports Cycling Challenge}\label{fig:sports_game}
+\end{figure}
+
 \newpage
 
-\subsection{Project Description}
+Once connected, players can choose a character (figure \ref{fig:sports_player})
+and use the controls on the phone (figure \ref{fig:sports_controls}) to race
+with each other on a track. In contrast to Lightsaber Escape, does not use
+motion-detection sensors of the phone, instead, the player activity is
+controlled by sophisticated touch screen gestures.
 
-\newpage
+\begin{figure}[!ht]
+    \centering
+    \subfloat[Character Selection Screen\label{fig:sports_player}]{
+      \includegraphics[width=0.25\textwidth]{sports_player}
+    }
+    \hspace{0.1\textwidth}
+    \subfloat[Player Controls for Cycling Challenge\label{fig:sports_controls}]{
+      \includegraphics[width=0.25\textwidth]{sports_controls}
+    }
+    \caption{Super Sync Sports on a Mobile Phone}
+\end{figure}
+
+From the technical point of view, Super Sync Sports and Lightsaber Escape share
+a lot of similarities like the connection procedures and the efficient use of
+WebSockets technology. It is also interesting how Super Sync Sports delegates
+things like character choice to the users phone rather than shows it on the
+common game screen. This greatly increases the game configuration speed and
+allows players to dive into the game right away.
+
+\subsection{The 'Snowfight' -- Project Description}
+
+Both of the games described above are great examples of interactive experience
+achieved through the use of a mobile phone as a gaming controller. Under the
+hood, they employ one of the two communication technologies be it WebSockets or
+WebRTC.
+
+The goal of this thesis is to replicate to some extent the functionality found
+in these games using the available developer tools and to identify patterns and
+techniques that can be used in similar projects. To achieve this, a multiplayer
+game will be created on top of aforementioned technologies. The concept is
+rather simple: players use their phones to connect to the game, they are placed
+in an isometric environment stylized as a winter playground. The gameplay
+represents a kind of 'death-match', in which players throw snowballs at each
+other with the attempt to eliminate all enemies from the game before being
+eliminated themselves.
+
+The controller component of the game should consist of a gamepad-like system
+rendered on the phone's browser with two main control elements: a trackball for
+controlling player direction and velocity, as well as a button for throwing
+snowballs. The communication between the controller and the game should be
+efficient enough to allow up to 6 player to experience a smooth and responsive
+gameplay, provided they are all connected to the same network.
+
+Among other requirements, it should be possible to adjust the settings of
+the player's avatar using the phone. Things that can be adjusted are the
+player's on-screen name and the color of the avatar. Overall the game should
+represent a functional prototype that would illustrate use the technology and
+show potential of further development.
+
 
 \subsection{Domain Analysis Conclusions}
 
-\newpage
+As with any project, domain analysis is an important development step that is
+able to prevent a great part of poorly made decisions. It can also boost the
+creativity process as similar projects are analyzed and user opinion is
+considered.
+
+This chapter tried to identify a way to merge the domains of gaming and real-
+time communication in an attempt to advance the concept of human interaction
+with computers. A brief history of user interfaces and gaming devices evolved
+into a discussion of how mobile phones could change the way people play games.
+
+After that, two technologies where proposed to be used in order to achieved the
+defined goal, mainly WebSockets and WebRTC, and a description of the thesis
+project was provided in the context of two existing games that leverage the same
+tools and technologies. As a result it is evident that for the purpose laid out
+in the thesis, WebRTC is the best match, and should be used in the
+implementation of the project.
+
 
 \clearpage
