@@ -2,6 +2,53 @@
 \addcontentsline{toc}{section}{Conclusions}
 \section*{Conclusions}
 
+Now that it can be said that computers are a vital part in human lives, it is
+important to keep in mind that this must not be at the expense of other things
+like communication and interaction among humans. Technology is often viewed as
+having a negative influence on society, but it sure can be used for the opposite
+as it depends solely on people themselves what technology can, and what it
+cannot do. This thesis represents the result of an effort to boost human
+interaction through the use of modern web technology.
+
+'Snowfight' is a web-based multiplayer arcade that employs real-time
+communication to enable players to use their mobile phones as game controllers.
+It can be used at parties and team-building events in order to entertain and
+bring people together in a common activity. The game in itself is a
+proof-of-concept application designed to illustrate the use of a toolkit
+assembled as the main outcome of the thesis. The obtained toolkit is a
+collection of libraries and technologies suitable for this kind of tasks. By the
+end of the project the toolkit contained the following items:
+
+\begin{description}
+\item [PeerJS] - a communication library which is a wrapper for the WebRTC technology;
+\item [HammerJS] - a framework for handling touch screen gestures;
+\item [Utility code] - a jQuery plug-in for creating the trackball control element.
+\end{description}
+
+During development it could be observed that real-time communication technology
+in the web context is still in active development as there where cases when
+certain parts of the specification were not supported by some browsers,
+moreover, even specifications are still available only as drafts. This results
+in a very high probability of breaking changes in future versions of the specs,
+that is, a lot of existing code will have to be rewritten in most cases in order
+to support new features, and it is likely that the relevant components of the
+aforementioned toolkit will be replaced.
+
+At the same time, such a development toolkit has a great potential of evolution,
+especially when the specifications concerning RTC technologies will be more or
+less standardized. It can be transformed into a full-fledged framework that
+would give developers the ability to use in their games a wide range of template
+control elements for different purposes and an expressive API for bidirectional
+communication between the game and the controller. In the future it could also
+have support for motion-detection through the smart-phone's accelerometer and
+gyroscope, which would open new opportunities and ideas for game designers.
+
+As for the 'Snowfight' game itself, it could be further refined and improved in
+terms of gameplay balance. It would also greatly benefit from a total visual
+refactoring as at the moment it uses stock spritesheets and on custom textures
+whatsoever. Such changes would appeal to potential users and might stimulate
+the development of the framework as well as a set of completely new games.
+
 
 
 \clearpage
