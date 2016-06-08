@@ -10,18 +10,25 @@
 
 \pagenumbering{gobble} % disable page numbering
 
-% TODO: INCLUDE TITLE PAGES
+\includepdf{pages/title}
+\includepdf{pages/signatures_without_mr_bostan}
+\includepdf{pages/notebook.pdf}
 
 \input{misc/abstract.tex}
 
 \input{misc/rezumat.tex}
 
-
+\AddToShipoutPicture*{%
+\put(0,0){\includegraphics[page=1]{./pages/toc_border}}%
+}
 \tableofcontents
+\AddToShipoutPicture*{%
+\put(0,0){\includegraphics[page=2]{./pages/toc_border}}%
+}
 \clearpage
 
 \pagenumbering{arabic} % re-enable page numbering
-\setcounter{page}{10} % TODO: FIX PAGE NUMBERING
+\setcounter{page}{10}
 
 
 
@@ -62,7 +69,7 @@
 
 
 
-
+\phantomsection
 \addcontentsline{toc}{section}{References}
 \printbibliography
 \cleardoublepage
