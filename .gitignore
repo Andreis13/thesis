@@ -2,4 +2,5 @@
 
 build/*
 !build/.keep
+!build/thesis.pdf
 temp/
